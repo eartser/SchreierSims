@@ -1,0 +1,44 @@
+from SchreierSims.schreierTree import Tree
+
+class StabChain:
+    def __init__(self, n, s, b, build=True):
+        self.base = b
+        self.n = n
+        self.trees = []  # Schreier trees for chain of stabilizers
+        self.strongSet = set()  # strong forming set
+        if build:
+            self.build(n, s, self.base)
+
+    def build(self, n, s, b):
+        self.trees.append(Tree(n, s, b[0]))
+        for i in range(1, len(b)):
+            stab = self.getStab(self.trees[i - 1].s, self.trees[i - 1].orbit)
+            stab = self.reduceStab(n, stab)
+            tree = Tree(n, stab, b[i])
+            self.trees.append(tree)
+            if len(stab) == 0:
+                break
+        self.strongSet = self.getStrongSet()
+
+    def getStab(self, s, orbit):
+        stab = set()
+        for p in s:
+            for y in orbit:
+                h_y = orbit[y]
+                h_py = orbit[p.perm[y]]
+                stab.add(h_py.inverse().multiply(p).multiply(h_y))
+        return stab
+
+    def reduceStab(self, n, s):
+        stab = set()
+        base = [{} for i in range(n)]
+        for perm in s:
+            for x in range(n):
+                if perm.perm[x] != x:
+                    if perm.perm[x] in base[x]:
+                        perm = perm.inverse().multiply(base[x][perm.perm[x]])
+                    else:
+                        base[x][perm.perm[x]] = perm
+                        stab.add(perm)
+                        break
+        return stab
