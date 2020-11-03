@@ -42,3 +42,10 @@ class StabChain:
                         stab.add(perm)
                         break
         return stab
+
+    def getStrongSet(self):
+        strongSet = set()
+        for tree in self.trees:
+            for perm in tree.permpath:
+                strongSet.add(perm)
+        return strongSet
