@@ -64,3 +64,6 @@ class StabChain:
         chain.trees = self.trees[:i]
         chain.strongSet = chain.getStrongSet()
         return chain
+
+    def getOrbit(self):
+        return self.trees[0].elems
