@@ -67,3 +67,18 @@ class StabChain:
 
     def getOrbit(self):
         return self.trees[0].elems
+
+    def isIn(self, perm):
+        decomp = []
+        id = list(range(1, self.n))
+        for i in range(len(self.base)):
+            num = perm.perm[self.base[i]]
+            if num not in self.trees[i].elems:
+                return False, None
+            h = self.trees[i].orbit[num].inverse()
+            perm = h.multiply(perm)
+            decomp.extend(self.trees[i].decomp[self.trees[i].orbit[num]])
+
+        if perm == id:
+            return True, decomp
+        return False, None
