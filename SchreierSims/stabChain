@@ -49,3 +49,9 @@ class StabChain:
             for perm in tree.permpath:
                 strongSet.add(perm)
         return strongSet
+
+    def getGroupOrder(self):
+        order = 1
+        for tree in self.trees:
+            order = order * len(tree.orbit)
+        return order
