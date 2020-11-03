@@ -1,0 +1,24 @@
+from SchreierSims.permutation import Perm
+
+class Tree:
+
+    def __init__(self, n, s, b):
+        self.s = set(s)  # forming set
+        self.elems = [b]  # set of numbers in Schreier tree
+        self.prevs = {b: None}  # dict of 'number - root'
+        self.perms = {}  # dict of 'number - permutation'
+        id = Perm(list(range(n)))
+        self.orbit = {b: id}  # dict of 'number - combined permutation'
+        self.permpath = {b: []}  # dict of 'permutation - its decomposition'
+        self.build(b)
+
+    def build(self, b):
+        for perm in self.s:
+            x = perm.perm[b]
+            if x not in self.elems:
+                self.elems.append(x)
+                self.prevs[x] = b
+                self.perms[x] = perm
+                self.orbit[x] = perm.multiply(self.orbit[b])
+                self.permpath[x] = self.permpath[b] + [perm]
+                self.build(x)
