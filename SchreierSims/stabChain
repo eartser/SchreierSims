@@ -55,3 +55,6 @@ class StabChain:
         for tree in self.trees:
             order = order * len(tree.orbit)
         return order
+
+    def getFormingSet(self, i):
+        return self.trees[i].s
