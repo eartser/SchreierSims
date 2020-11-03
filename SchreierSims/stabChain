@@ -58,3 +58,9 @@ class StabChain:
 
     def getFormingSet(self, i):
         return self.trees[i].s
+
+    def getStabChain(self, i):
+        chain = StabChain(self.n, self.getFormingSet(i), self.b[:i], False)
+        chain.trees = self.trees[:i]
+        chain.strongSet = chain.getStrongSet()
+        return chain
