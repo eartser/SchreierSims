@@ -1,0 +1,24 @@
+class Perm:
+    def __init__(self, perm):
+        self.perm = perm
+
+    def __len__(self):
+        return len(self.perm)
+
+    def __hash__(self):
+        return hash(tuple(self.perm))
+
+    def __eq__(self, other):
+        return self.perm == other.perm
+
+    def multiply(self, other):
+        perm = []
+        for i in range(len(self)):
+            perm.append(self.perm[other.perm[i]])
+        return Perm(perm)
+
+    def inverse(self):
+        inv = [0 for i in range(len(self))]
+        for i in range(len(self)):
+            inv[self.perm[i]] = i
+        return Perm(inv)
